@@ -1,0 +1,14 @@
+com/demo/servicea/service/ProductService.class
+com/demo/servicea/messaging/DomainChangeEvent$FieldChange.class
+com/demo/servicea/domain/Product.class
+com/demo/servicea/messaging/DomainChangeKafkaNotifier.class
+com/demo/servicea/messaging/DomainChangeDiff.class
+com/demo/servicea/ServiceAApplication.class
+com/demo/servicea/messaging/aop/DomainChangePublicationAspect$1.class
+com/demo/servicea/web/dto/UpdateProductRequest.class
+com/demo/servicea/messaging/DomainChangeEvent.class
+com/demo/servicea/repository/ProductRepository.class
+com/demo/servicea/messaging/aop/DomainChangePublicationAspect.class
+com/demo/servicea/messaging/EntityStateMapper.class
+com/demo/servicea/messaging/aop/PublishDomainChanges.class
+com/demo/servicea/web/ProductController.class
