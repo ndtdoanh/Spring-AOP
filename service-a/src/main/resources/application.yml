@@ -6,8 +6,8 @@ spring:
     name: service-a
   datasource:
     url: jdbc:postgresql://localhost:5432/service_a
-    username: ndtdoanh
-    password: 12345678
+    username: postgres
+    password: ndtdoanh
   jpa:
     hibernate:
       ddl-auto: validate
@@ -22,10 +22,11 @@ spring:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.add.type.headers: false
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 app:
   kafka:
     product-updates-topic: product.updates
+  outbox:
+    poll-interval-ms: 5000
+

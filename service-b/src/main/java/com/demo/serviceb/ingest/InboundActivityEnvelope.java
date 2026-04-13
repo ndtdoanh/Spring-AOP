@@ -1,10 +1,14 @@
 package com.demo.serviceb.ingest;
 
 import com.demo.serviceb.ingest.model.DomainChangeEvent;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+/**
+ * Bọc event và Kafka metadata lại với nhau để truyền xuống command service.
+ * Tách metadata ra field riêng — không phụ thuộc vào generic type của ConsumerRecord.
+ */
 public record InboundActivityEnvelope(
         DomainChangeEvent event,
-        ConsumerRecord<String, DomainChangeEvent> record
-) {
+        String kafkaTopic,
+        int kafkaPartition,
+        long kafkaOffset) {
 }

@@ -7,31 +7,34 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a transactional method that mutates a JPA aggregate. After success, the aspect diffs selected
- * JavaBean properties and publishes a generic {@link com.demo.servicea.messaging.DomainChangeEvent}.
+ * Gắn lên method mutation để aspect tự động diff before/after state
+ * và publish DomainChangeEvent lên Kafka sau khi transaction commit.
  * <p>
- * Prefer returning the aggregate root from the advised method so the aspect can read the new state
- * without calling {@code EntityManager.flush()} (which fails when this advice runs outside the
- * transaction boundary).
- * <p>
- * Add this annotation per mutating method with metadata — no extra snapshot class per entity.
+ * Bắt buộc: method phải return aggregate root để aspect đọc after state
+ * mà không cần flush thêm.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface PublishDomainChanges {
 
-    /** Stable name for consumers, e.g. {@code "product"}, {@code "order"}. */
+    /**
+     * Tên nghiệp vụ, dùng làm label trong event. Ví dụ: "product", "order"
+     */
     String aggregateType();
 
-    /** Root entity class; must match the {@link jakarta.persistence.Entity} loaded by primary key. */
+    /**
+     * Entity class tương ứng với aggregate, phải là @Entity JPA
+     */
     Class<?> entityClass();
 
-    /** Zero-based index of the method argument that holds the JPA identifier ({@link Long}, {@link String}, …). */
+    /**
+     * Index (0-based) của argument chứa JPA id trong method
+     */
     int idParameterIndex() default 0;
 
     /**
-     * JavaBean property names excluded from diff (optimistic lock, relations you do not want in events, …).
+     * Các property bỏ qua khi diff — mặc định bỏ version (optimistic lock)
      */
     String[] ignoredProperties() default {"version"};
 }

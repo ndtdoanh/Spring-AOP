@@ -1,13 +1,13 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
     name: service-b
   datasource:
     url: jdbc:postgresql://localhost:5432/service_b
-    username: ndtdoanh
-    password: 12345678
+    username: postgres
+    password: ndtdoanh
   jpa:
     hibernate:
       ddl-auto: validate
@@ -23,12 +23,11 @@ spring:
     consumer:
       group-id: service-b-activity
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: earliest
-      properties:
-        spring.json.trusted.packages: com.demo.serviceb.ingest.model
-        spring.json.use.type.headers: false
-        spring.json.value.default.type: com.demo.serviceb.ingest.model.DomainChangeEvent
+      enable-auto-commit: false
+    listener:
+      ack-mode: RECORD
 
 app:
   kafka:
